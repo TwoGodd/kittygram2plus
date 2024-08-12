@@ -1,10 +1,8 @@
 from rest_framework import viewsets
 
 from .models import Achievement, Cat, User
-
-from .serializers import AchievementSerializer, CatSerializer, UserSerializer
-
 from .permissions import OwnerOrReadOnly, ReadOnly
+from .serializers import AchievementSerializer, CatSerializer, UserSerializer
 
 
 class CatViewSet(viewsets.ModelViewSet):
