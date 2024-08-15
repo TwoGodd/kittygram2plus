@@ -1,7 +1,7 @@
 from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework import viewsets
-from rest_framework.throttling import ScopedRateThrottle
+from rest_framework import filters, viewsets
 from rest_framework.pagination import PageNumberPagination
+from rest_framework.throttling import ScopedRateThrottle
 
 from .models import Achievement, Cat, User
 from .pagination import CatsPagination
@@ -24,12 +24,13 @@ class CatViewSet(viewsets.ModelViewSet):
 
     # Указываем фильтрующий бэкенд DjangoFilterBackend
     # Из библиотеки django-filter
-    filter_backends = (DjangoFilterBackend,)
+    filter_backends = (DjangoFilterBackend, filters.SearchFilter)
     # Временно отключим пагинацию на уровне вьюсета,
     # так будет удобнее настраивать фильтрацию
     pagination_class = None
     # Фильтровать будем по полям color и birth_year модели Cat
     filterset_fields = ('color', 'birth_year')
+    search_fields = ('name',)
 
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
